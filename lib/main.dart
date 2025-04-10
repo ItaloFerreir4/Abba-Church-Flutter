@@ -38,18 +38,16 @@ class _WebViewPageState extends State<WebViewPage> {
           onNavigationRequest: (NavigationRequest request) async {
             Uri url = Uri.parse(request.url);
 
-            // Verifica se o link não pertence ao site principal
             if (!url.host.contains('newabba.us')) {
-              // Verifica se pode abrir o link no navegador externo
               if (await canLaunchUrl(url)) {
-                await launchUrl(url, mode: LaunchMode.platformDefault);
+                await launchUrl(url, mode: LaunchMode.externalApplication);
               } else {
                 print('Não foi possível abrir o link: ${url.toString()}');
               }
-              return NavigationDecision.prevent; // Impede a WebView de carregar o link externo
+              return NavigationDecision.prevent;
             }
 
-            return NavigationDecision.navigate; // Permite que a WebView continue a navegação interna
+            return NavigationDecision.navigate;
           },
         ),
       )
